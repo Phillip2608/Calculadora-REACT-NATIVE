@@ -1,10 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
+import {useState} from 'react'
 
 import Btn from "./src/components/Btn";
+import Display from "./src/components/Display";
 
 export default function App() {
+  const [value, setValue] = useState('0')
+
   return (
     <View style={styles.container}>
+      <Display value={value} />
       <View style={styles.buttons}>
         <Btn label="AC" />
         <Btn label="/" />
