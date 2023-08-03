@@ -13,12 +13,13 @@ function Display(props) {
 const styles = StyleSheet.create({
   display: {
     flex: 1,
-    paddin: 20,
+    
     justifyContent: "center",
     backgroundColor: "rgba(0,0,0,0.6)",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   displayValue: {
+    padding:30,
     fontSize: 60,
     color: "#fff",
   },
