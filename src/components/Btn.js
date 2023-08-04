@@ -7,7 +7,7 @@ function Btn(props) {
   if (props.operation) stylesButton.push(styles.operationBtn);
   return (
     <>
-      <TouchableHighlight onPress={() => {props.onClick(props.label)}}>
+      <TouchableHighlight onPress={() => props.onClick(props.label)}>
         <Text style={stylesButton}>{props.label}</Text>
       </TouchableHighlight>
     </>

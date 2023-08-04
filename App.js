@@ -5,21 +5,66 @@ import Btn from "./src/components/Btn";
 import Display from "./src/components/Display";
 
 export default function App() {
-  const [value, setValue] = useState("0");
+  const [displayValue, setDisplayValue] = useState("0");
+  const [varOperation, setVarOperation] = useState(null);
+  const [values, setValues] = useState([0, 0]);
+  const [clear, setClear] = useState(false);
+  const [current, setCurrent] = useState(0);
 
   function addDigit(n) {
-    setValue(n);
+    const clearDisplay = displayValue === "0" || clear;
+
+    if (n === "." && !clearDisplay && displayValue.includes(".")) {
+      return;
+    }
+
+    const currentValue = clearDisplay ? "" : displayValue;
+    const disValue = currentValue + n;
+    setDisplayValue(disValue);
+    setClear(false);
+
+    if (n !== ".") {
+      const newValue = parseFloat(disValue);
+      const vals = [...values];
+      vals[current] = newValue;
+      setValues(vals)
+    }
   }
 
   function clearMemory() {
-    setValue("0");
+    setDisplayValue("0")
+    setVarOperation(null)
+    setValues([0,0])
+    setClear(false)
+    setCurrent(0)
   }
 
-  function setOperation(operation) {}
+  function setOperation(operation) {
+    if(current === 0){
+      setVarOperation(operation)
+      setCurrent(1)
+      setClear(true)
+    }else{
+      const equals = operation === '='
+      const vals = [...values]
+      try{
+        vals[0] = eval(`${vals[0]} ${varOperation} ${vals[1]}`)
+      }catch(e){
+        vals[0] = values[0]
+      }
+
+      vals[1] = 0
+      setDisplayValue(`${vals[0]}`)
+      setVarOperation(equals ? null : operation)
+      setCurrent(equals ? 0 : 1)
+      setClear(!equals)
+      setValues(vals)
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <Display value={value} />
+      <Display value={displayValue} />
       <View style={styles.buttons}>
         <Btn label="AC" triple onClick={clearMemory} />
         <Btn label="/" operation onClick={setOperation} />
